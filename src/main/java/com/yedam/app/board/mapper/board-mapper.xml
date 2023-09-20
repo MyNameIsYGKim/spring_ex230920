@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.board.BoardMapper">
+
+	<!-- 전체조회 -->
+	<select id="selectBoardList" resultType="BoardVO">
+		SELECT bno
+			   , title
+			   , contents
+			   , writer
+			   , regdate
+			   , updatedate
+			   , image
+		FROM tbl_board
+		ORDER BY bno
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="selectBoardInfo" resultType="BoardVO">
+		SELECT bno
+			   , title
+			   , contents
+			   , writer
+			   , regdate
+			   , updatedate
+			   , image
+		FROM tbl_board
+		WHERE bno = #{bno}
+		<if test="writer != null and !writer.equals('')">
+			AND writer = #{writer}
+		</if>
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertBoard" parameterType="BoardVO">
+		<selectKey keyProperty="bno"
+				   resultType="String"
+				   order="BEFORE">
+			SELECT LPAD(NVL(MAX(bno), 0) + 1, 3, '0')
+			FROM tbl_board
+		</selectKey>
+		INSERT INTO tbl_board
+				(
+					bno
+					, title
+					, contents
+					, writer
+					<if test="image!=null and !image.equals('')">
+					, image
+					</if>
+				)
+		VALUES
+				(
+					#{bno}
+					, #{title}
+					<choose>
+						<when test="contents!=null and !contents.equals('')">
+						, #{contents}
+						</when>
+						<otherwise>
+						, 'No Contents'
+						</otherwise>
+					</choose>
+					, #{writer}
+					<if test="image!=null and !image.equals('')">
+					, #{image}
+					</if>
+					
+				)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE tbl_board
+		<set>
+			<if test="title != null and !title.equals('')">
+				title = #{title},
+			</if>
+			<if test="contents != null and !contents.equals('')">
+				contents = #{contents},
+			</if>
+			<if test="image != null">
+				image = #{image},
+			</if>
+			<if test="updatedate != null">
+				updatedate = #{updatedate}
+			</if>
+			<if test="updatedate == null">
+				updatedate = sysdate
+			</if>
+		</set>
+		WHERE bno = #{bno}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM tbl_board
+		WHERE bno = #{bno}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
