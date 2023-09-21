@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.app.board.BoardMapper">
+<mapper namespace="com.yedam.app.board.mapper.BoardMapper">
 
 	<!-- 전체조회 -->
 	<select id="selectBoardList" resultType="BoardVO">
@@ -97,7 +97,8 @@
 	<!-- 삭제 -->
 	<delete id="deleteBoard" parameterType="int">
 		DELETE FROM tbl_board
-		WHERE bno = #{bno}
+		WHERE bno = LPAD(#{bno}, 3, '0')
+		<!-- TO_NUMBER(bno) = #{bno} -->
 	</delete>
 	
 </mapper>
