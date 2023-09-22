@@ -27,8 +27,7 @@
 			</tr>
 		</table>
 		<button type="submit">등록</button>
-		<button type="button" onclick="location.href=boardList'">취소</button>
-
+		<button type="button" onclick="location.href='boardList'">취소</button>
 	</form>
 	<script>
 		$('[name="insertForm"]').on('submit', function(e){

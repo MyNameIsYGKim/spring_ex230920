@@ -48,3 +48,12 @@
 	<button type="button" onclick="location.href='boardDelete?bno=${boardInfo.bno }'">삭제</button>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

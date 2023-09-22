@@ -74,8 +74,7 @@ public class BoardController {
 	@GetMapping("boardDelete")
 	public String boardDelete(@RequestParam Integer bno) {
 		boardService.deleteBoardInfo(bno);
-		return "redirect:boradList";
-		
+		return "redirect:boardList";
 	}
 }
 
